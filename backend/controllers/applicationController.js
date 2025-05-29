@@ -30,22 +30,31 @@ exports.getApplicationByJobId=async(req,res)=>{
 exports.applyToJob = async (req, res) => {
   try {
     const jobId = req.params.id;
+    console.log(req.user)
     const userId = req.user.id; // Assuming authorizeEmployee sets req.user
-
+    console.log(jobId,userId)
     // Example logic
-    const alreadyApplied = await db.Application.findOne({ where: { jobId, userId } });
-    if (alreadyApplied) {
-      return res.status(400).json({ message: 'Already applied to this job' });
+    const [candidaterows]=await db.query('SELECT Id from Candidates where Email=?',[req.user.email])
+
+    if (candidaterows.length === 0) {
+      await db.query(
+        'insert into candidates (Id,Name,Email) values(?,?)',[req.user.Id,req.user.name,req.user.email]
+      )
     }
 
-    const application = await db.Application.create({
-      jobId,
-      userId,
-      status: 'applied',
-      appliedAt: new Date(),
-    });
+    const candidateId=candidaterows[0].Id;
 
-    res.status(201).json(application);
+    const [existing]=await db.query('SELECT * from Applications where CandidateId=? and JobId=?',[candidateId,jobId])
+
+    if (existing.length>0){
+      console.log(existing)
+      return res.status(409).json({message:'Already Applied for this Job'})
+    }
+
+    await db.query(
+      'Insert into applications (JobId,CandidateId,Status) values (?,?,?)',[jobId,candidateId,"Applied"]
+    )
+    res.status(201).json({ message: 'Application submitted successfully'});
   } catch (error) {
     console.error('Apply to job error:', error);
     res.status(500).json({ message: 'Internal server error' });

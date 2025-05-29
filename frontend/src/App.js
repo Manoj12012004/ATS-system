@@ -20,6 +20,7 @@ function App() {
           <Route path='/:id' element={<ProtectedRoute><Dash/></ProtectedRoute>}/>
           <Route path='/:id/jobs' element={<ProtectedRoute><Jobs/></ProtectedRoute>}/>
           <Route path='/:id/jobs/:jid' element={<ProtectedRoute><JobDetail/></ProtectedRoute>}/>
+          <Route path='/:id/jobs/applications'/>
           {/* EMPLOYEE ROUTES */}
           <Route path='/eid/jobs' element={<ProtectedRoute role="EMPLOYEE"><JobsList /></ProtectedRoute>} />
           <Route path='/eid/jobs/:jid' element={<ProtectedRoute role="EMPLOYEE"><JobDetail /></ProtectedRoute>} />
