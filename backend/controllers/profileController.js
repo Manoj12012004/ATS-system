@@ -4,7 +4,6 @@ exports.EmployeeProfile = async(req,res)=>{
     const employee_id=req.user.id
     const rows=await db.query(
         `SELECT u.Name,u.Email,u.Role,u.Resume_url from users u where u.Id=?`,[employee_id])
-
     res.json(rows[0]);
 }
 exports.RecruiterProfile=(req,res)=>{

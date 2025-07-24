@@ -1,7 +1,7 @@
 import React from "react";
 import { useAuth } from "../components/AuthContext";
-import { JobsList } from "./CandidateHome";
-import { JobsByRecruiter } from "./RecruiterHome";
+import { JobsList } from "../components/CandidateHome";
+import { JobsByRecruiter } from "../components/RecruiterHome";
 
 const Jobs=()=>{
     const auth=useAuth();

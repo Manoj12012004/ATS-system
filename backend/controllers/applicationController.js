@@ -3,9 +3,14 @@ const db= require('../database/db');
 exports.getApplicationsByEmployeeId=async(req,res)=>{
     const employeeId=req.user.id;
     try{
-        const [rows]=db.query('SELECT * FROM applications WHERE CandidateId=? ORDER BY updatedat DESC',[employeeId]);
-        res.json({rows});
-        res.status(200).json({message:"Applications fetched successfully"});
+        const rows= await db.query('SELECT * FROM applications WHERE CandidateId=? ORDER BY Updated_At DESC',[employeeId]);
+        
+        if(rows.length===0){
+            return res.status(404).json({data:[],message:"No applications found"});
+        }
+        
+        res.status(200).json({data:rows[0],message:"Applications fetched successfully"});
+
     }
     catch(err){
         console.error('Error fetching applications:', err);
@@ -17,7 +22,7 @@ exports.getApplicationByJobId=async(req,res)=>{
     try{
         const [rows]= await db.query('SELECT * FROM applications WHERE JobId=?',[jobId]);
         if(rows.length===0){
-            return res.status(404).json({message:"Application not found"});
+            return res.json({data:[],message:"Application not found"});
         }
         res.json(rows[0]);
     }

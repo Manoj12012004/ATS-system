@@ -1,8 +1,10 @@
 import React from "react";
 import { Button, Form } from "react-bootstrap";
 import API from "../api/axios";
+import { useAuth } from "./AuthContext";
 
 const JobPostForm=()=>{
+    const auth=useAuth();
     const [formData, setFormData] = React.useState({
         title: "",
         description: "",

@@ -11,6 +11,6 @@ router.get('/profile',authorizeEmployee,EmployeeProfile)
 router.get('/jobs',authorizeEmployee,getAllJobs)
 router.get('/jobs/:id',authorizeEmployee,getJobByJobId)
 router.post('/jobs/:id/apply',authorizeEmployee,applyToJob)
-router.get('/jobs/applications',authorizeEmployee,getApplicationsByEmployeeId)
+router.get('/applications',authorizeEmployee,getApplicationsByEmployeeId)
 
 module.exports = router;

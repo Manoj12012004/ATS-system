@@ -1,35 +1,48 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import { Login, SignUp } from './pages/LoginPage';
-import { RecruiterDash } from './pages/RecruiterHome';
-import { EmployeeDash, JobsList } from './pages/CandidateHome';
+import { RecruiterDash } from './components/RecruiterHome';
+import { EmployeeDash, JobsList } from './components/CandidateHome';
 import JobDetail from './pages/JobsDesc';
 import JobPostForm from './components/JobPostForm';
-import { AuthProvider } from './components/AuthContext';
+import { AuthProvider, useAuth } from './components/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
 import Dash from './pages/Dash';
 import { Jobs } from './pages/Jobs';
+import Applications from './pages/Applications';
+import Home from './pages/Home';
+import DashboardLayout from './components/DashboardLayout';
+import Profile from './pages/Profile';
+import AxiosInterceptorSetup from './components/AxiosInterceptorSetup';
+
 
 function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <Routes>
-          <Route path='/' element={<Login />} />
-          <Route path='/register' element={<SignUp />} />
-          <Route path='/:id' element={<ProtectedRoute><Dash/></ProtectedRoute>}/>
-          <Route path='/:id/jobs' element={<ProtectedRoute><Jobs/></ProtectedRoute>}/>
-          <Route path='/:id/jobs/:jid' element={<ProtectedRoute><JobDetail/></ProtectedRoute>}/>
-          <Route path='/:id/jobs/applications'/>
-          {/* EMPLOYEE ROUTES */}
-          <Route path='/eid/jobs' element={<ProtectedRoute role="EMPLOYEE"><JobsList /></ProtectedRoute>} />
-          <Route path='/eid/jobs/:jid' element={<ProtectedRoute role="EMPLOYEE"><JobDetail /></ProtectedRoute>} />
+        <AxiosInterceptorSetup/>
+          <Routes>
+            <Route path='/' element={<Home/>} />
+            <Route path='/login' element={<Login />} />
+            <Route path='/register' element={<SignUp />} />
 
-          {/* RECRUITER ROUTES */}
-          <Route path='/rid' element={<ProtectedRoute role="RECRUITER"><RecruiterDash /></ProtectedRoute>} />
-          <Route path='/rid/jobs' element={<ProtectedRoute role="RECRUITER"><JobsList /></ProtectedRoute>} />
-          <Route path='/rid/jobs/create' element={<ProtectedRoute role="RECRUITER"><JobPostForm /></ProtectedRoute>} />
-        </Routes>
+            <Route path='/:id' element={
+              <ProtectedRoute>
+                <DashboardLayout/>
+              </ProtectedRoute>
+            }>
+              <Route index element={<Dash/>}/>
+            <Route path='jobs' element={<Jobs/>}/>
+            <Route path='jobs/:jid' element={<JobDetail/>}/>
+            <Route path='profile' element={<Profile/>}/>
+            <Route path='applications' element={<Applications/>}/>
+            <Route path='jobs/create' element={
+                <ProtectedRoute allowedRoles={["RECRUITER"]}>
+                    <JobPostForm />
+                </ProtectedRoute>
+            } />
+            </Route>
+          </Routes>
       </BrowserRouter>
     </AuthProvider>
   );
