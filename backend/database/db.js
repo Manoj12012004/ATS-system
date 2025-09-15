@@ -1,30 +1,32 @@
-const mysql= require('mysql2');
-const path=require('path');
-const fs=require('fs');
+const mysql = require('mysql2');
+const path = require('path');
+const fs = require('fs');
+require('dotenv').config();
 
-const connection=mysql.createConnection(process.env.DATABASE_URL || {
-    host:'127.0.0.1',
-    port:3306,
-    user:'root',
-    password:'root',
-    database:'ats_db',
-    multipleStatements:true,
+const pool = mysql.createPool({
+    host: process.env.DB_HOST,
+    port: process.env.DB_PORT,
+    user: process.env.DB_USER,
+    password: process.env.DB_PASSWORD,
+    database: process.env.DB_NAME,
     waitForConnections: true,
     connectionLimit: 10,
-    queueLimit: 0
+    queueLimit: 0,
+    multipleStatements: true
 });
 
 if (process.env.NODE_ENV !== 'production') {
-    const sqlFilePath=path.join(__dirname,'schema.sql');
-    const sql=fs.readFileSync(sqlFilePath,'utf8');
-    connection.connect((err)=>{
-        if(err){
-            console.error('Error connecting to the database:', err);
+    const sqlFilePath = path.join(__dirname, 'schema.sql');
+    const sql = fs.readFileSync(sqlFilePath, 'utf8');
+    pool.getConnection((err, connection) => {
+        if (err) {
+            console.error('Error getting connection from pool:', err);
             return;
         }
-        console.log('Connected to the database');
-        connection.query(sql,(err)=>{
-            if(err){
+        console.log('Connected to the database via pool');
+        connection.query(sql, (err) => {
+            connection.release();
+            if (err) {
                 console.error('Error executing SQL script:', err);
                 return;
             }
@@ -33,4 +35,4 @@ if (process.env.NODE_ENV !== 'production') {
     });
 }
 
-module.exports=connection.promise();
+module.exports = pool.promise();
