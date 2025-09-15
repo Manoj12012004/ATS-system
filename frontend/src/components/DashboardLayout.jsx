@@ -1,15 +1,15 @@
-import { Outlet } from "react-router-dom"
-import SideBar from "./Sidebar"
+import { Outlet } from "react-router-dom";
+import SideBar from "./Sidebar";
 
 const DashboardLayout = () => {
-    return(
-        <div style={{display:'flex'}}>
-            <SideBar/>
-            <main style={{flexGrow:1, padding:'1rem'}}>
-                <Outlet/>
-            </main>
-        </div>
-    )
-}
+  return (
+    <div className="flex h-screen bg-gray-100">
+      <SideBar />
+      <main className="flex-grow p-8">
+        <Outlet />
+      </main>
+    </div>
+  );
+};
 
 export default DashboardLayout;

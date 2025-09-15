@@ -16,3 +16,16 @@ exports.RecruiterProfile=(req,res)=>{
         }
     )
 }
+
+exports.uploadResume = async (req, res) => {
+    const employee_id = req.user.id;
+    const resume_url = req.file.path;
+
+    try {
+        await db.query('UPDATE users SET Resume_url = ? WHERE Id = ?', [resume_url, employee_id]);
+        res.json({ message: "Resume uploaded successfully" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error uploading resume" });
+    }
+};

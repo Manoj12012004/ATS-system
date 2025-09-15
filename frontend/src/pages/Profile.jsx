@@ -1,11 +1,12 @@
 import { useAuth } from "../components/AuthContext";
-import {EmployeeProfile} from "../components/CandidateHome";
+import { EmployeeProfile } from "../components/CandidateHome";
+import { RecruiterProfile } from "../components/RecruiterHome";
 
 const Profile = () => {
     const { user } = useAuth();
-    return(
+    return (
         <div>
-            {user ? (user.role === "RECRUITER" ? null : <EmployeeProfile />) : null}
+            {user ? (user.role === "RECRUITER" ? <RecruiterProfile /> : <EmployeeProfile />) : null}
         </div>
     )
 }

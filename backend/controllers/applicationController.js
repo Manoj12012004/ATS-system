@@ -20,17 +20,31 @@ exports.getApplicationsByEmployeeId=async(req,res)=>{
 exports.getApplicationByJobId=async(req,res)=>{
     const jobId=req.params.id;
     try{
-        const [rows]= await db.query('SELECT * FROM applications WHERE JobId=?',[jobId]);
+        const [rows]= await db.query('SELECT a.*, u.Name, u.Email, u.Resume_url FROM applications a JOIN users u ON a.CandidateId = u.Id WHERE a.JobId=?',[jobId]);
         if(rows.length===0){
             return res.json({data:[],message:"Application not found"});
         }
-        res.json(rows[0]);
+        res.json({data: rows});
     }
     catch(err){
         console.error('Error fetching application:', err);
         res.status(500).json({message:"ERROR FETCHING APPLICATION"});
     }
 }
+
+exports.updateApplicationStatus = async (req, res) => {
+    const { id } = req.params;
+    const { status } = req.body;
+
+    try {
+        await db.query('UPDATE applications SET Status = ? WHERE Id = ?', [status, id]);
+        res.json({ message: "Status updated successfully" });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Error updating status" });
+    }
+};
+
 // controller/jobController.js
 exports.applyToJob = async (req, res) => {
   try {

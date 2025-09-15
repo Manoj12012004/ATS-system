@@ -1,7 +1,7 @@
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import './App.css';
 import { Login, SignUp } from './pages/LoginPage';
-import { RecruiterDash } from './components/RecruiterHome';
+import { RecruiterDash, RecruiterApplications } from './components/RecruiterHome';
 import { EmployeeDash, JobsList } from './components/CandidateHome';
 import JobDetail from './pages/JobsDesc';
 import JobPostForm from './components/JobPostForm';
@@ -34,6 +34,7 @@ function App() {
               <Route index element={<Dash/>}/>
             <Route path='jobs' element={<Jobs/>}/>
             <Route path='jobs/:jid' element={<JobDetail/>}/>
+            <Route path='jobs/:jid/applications' element={<RecruiterApplications/>}/>
             <Route path='profile' element={<Profile/>}/>
             <Route path='applications' element={<Applications/>}/>
             <Route path='jobs/create' element={

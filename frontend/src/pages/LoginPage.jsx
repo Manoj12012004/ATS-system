@@ -1,5 +1,4 @@
 import React from "react";
-import { Button, Form, Container, Row, Col, Alert, Card } from "react-bootstrap";
 import { Link, useNavigate } from 'react-router-dom';
 import API from "../api/axios";
 import { useAuth } from "../components/AuthContext";
@@ -37,73 +36,76 @@ const SignUp = () => {
   };
 
   return (
-    <Container className="d-flex justify-content-center align-items-center vh-100">
-      <Card style={{ width: '100%', maxWidth: '500px' }} className="p-4 shadow">
-        <h3 className="text-center mb-4">Sign Up</h3>
-        <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-3" controlId="name">
-            <Form.Label>Full Name</Form.Label>
-            <Form.Control
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
+        <h3 className="text-2xl font-bold text-center text-gray-800">Sign Up</h3>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+            <label className="text-sm font-bold text-gray-600">Full Name</label>
+            <input
               type="text"
               name="name"
               placeholder="Your name"
               value={form.name}
               onChange={handleChange}
               required
+              className="w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 border border-gray-300 rounded-lg focus:outline-none focus:bg-white focus:border-blue-500"
             />
-          </Form.Group>
+          </div>
 
-          <Form.Group className="mb-3" controlId="email">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control
+          <div>
+            <label className="text-sm font-bold text-gray-600">Email address</label>
+            <input
               type="email"
               name="email"
               placeholder="example@email.com"
               value={form.email}
               onChange={handleChange}
               required
+              className="w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 border border-gray-300 rounded-lg focus:outline-none focus:bg-white focus:border-blue-500"
             />
-          </Form.Group>
+          </div>
 
-          <Form.Group className="mb-3" controlId="password">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
+          <div>
+            <label className="text-sm font-bold text-gray-600">Password</label>
+            <input
               type="password"
               name="password"
               placeholder="********"
               value={form.password}
               onChange={handleChange}
               required
+              className="w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 border border-gray-300 rounded-lg focus:outline-none focus:bg-white focus:border-blue-500"
             />
-          </Form.Group>
+          </div>
 
-          <Form.Group className="mb-3" controlId="role">
-            <Form.Label>Role</Form.Label>
-            <Form.Select name="role" value={form.role} onChange={handleChange} required>
+          <div>
+            <label className="text-sm font-bold text-gray-600">Role</label>
+            <select name="role" value={form.role} onChange={handleChange} required className="w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 border border-gray-300 rounded-lg focus:outline-none focus:bg-white focus:border-blue-500">
               <option value="">Select Role</option>
-              <option value="Recruiter">Recruiter</option>
-              <option value="Employee">Employee</option>
-            </Form.Select>
-          </Form.Group>
+              <option value="RECRUITER">Recruiter</option>
+              <option value="EMPLOYEE">Employee</option>
+            </select>
+          </div>
 
-          <Button type="submit" className="w-100" variant="primary">
+          <button type="submit" className="w-full py-2 text-white bg-blue-500 rounded-lg hover:bg-blue-600 focus:outline-none">
             Sign Up
-          </Button>
+          </button>
 
           {status &&
-            <Alert variant={status.type} className="mt-3">
+            <div className={`p-4 mt-4 text-sm text-white rounded-lg ${status.type === 'success' ? 'bg-green-500' : 'bg-red-500'}`}>
               {status.message}
-            </Alert>
+            </div>
           }
-          <div className="text-center mt-3">
-            <span>Already have an account </span>
-            <Link to="/login" className="text-primary">
+          <div className="text-center mt-4">
+            <span>Already have an account? </span>
+            <Link to="/login" className="text-blue-500 hover:underline">
               Login
             </Link>
           </div>
-        </Form>
-      </Card>
-    </Container>
+        </form>
+      </div>
+    </div>
   );
 };
 
@@ -134,50 +136,54 @@ const Login = () => {
   };
 
   return (
-    <Container className="d-flex justify-content-center align-items-center vh-100">
-      <Card style={{ width: '100%', maxWidth: '500px' }} className="p-4 shadow">
-        <h3 className="text-center mb-4">Login</h3>
-        <Form onSubmit={handleSubmit}>
-          <Form.Group className="mb-3">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control
+    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+      <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
+        <h3 className="text-2xl font-bold text-center text-gray-800">Login</h3>
+        <form onSubmit={handleSubmit} className="space-y-6">
+          <div>
+            <label className="text-sm font-bold text-gray-600">Email address</label>
+            <input
               type="email"
               name="email"
               placeholder="example@email.com"
               value={form.email}
               onChange={handleChange}
-              required />
-          </Form.Group>
+              required
+              className="w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 border border-gray-300 rounded-lg focus:outline-none focus:bg-white focus:border-blue-500"
+            />
+          </div>
 
-          <Form.Group className="mb-3">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
+          <div>
+            <label className="text-sm font-bold text-gray-600">Password</label>
+            <input
               type="password"
               name="password"
               placeholder="********"
               value={form.password}
               onChange={handleChange}
-              required />
-          </Form.Group>
+              required
+              className="w-full px-4 py-2 mt-2 text-gray-700 bg-gray-200 border border-gray-300 rounded-lg focus:outline-none focus:bg-white focus:border-blue-500"
+            />
+          </div>
 
-          <Button type="submit" className="w-100" variant="dark">
+          <button type="submit" className="w-full py-2 text-white bg-gray-800 rounded-lg hover:bg-gray-900 focus:outline-none">
             Login
-          </Button>
+          </button>
 
           {status &&
-            <Alert variant={status.type} className="mt-3">
+            <div className={`p-4 mt-4 text-sm text-white rounded-lg ${status.type === 'success' ? 'bg-green-500' : 'bg-red-500'}`}>
               {status.message}
-            </Alert>
+            </div>
           }
-          <div className="text-center mt-3">
+          <div className="text-center mt-4">
             <span>Don't have an account? </span>
-            <Link to="/register" className="text-primary">
+            <Link to="/register" className="text-blue-500 hover:underline">
               Sign Up
             </Link>
           </div>
-        </Form>
-      </Card>
-    </Container>
+        </form>
+      </div>
+    </div>
   );
 };
 
